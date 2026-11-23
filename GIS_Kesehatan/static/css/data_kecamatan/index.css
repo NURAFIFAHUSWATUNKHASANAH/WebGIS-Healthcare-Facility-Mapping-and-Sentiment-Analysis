@@ -1,0 +1,264 @@
+/* ==========================================================================
+   DATA KECAMATAN (FULLY ADAPTIVE RATIO WITH THEME VARIABLES)
+   ========================================================================== */
+
+/* --- Card Dashboard Container Setup --- */
+.card-dashboard.p-0 {
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    margin-bottom: 40px; /* Menjaga agar tidak mentok footer */
+    box-shadow: 0 4px 24px var(--card-shadow);
+    position: relative;
+    overflow: hidden;
+}
+.card-dashboard {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.custom-modern-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: transparent !important;
+    margin-bottom: 0 !important;
+}
+
+/* Base reset cell table background */
+.custom-modern-table thead, 
+.custom-modern-table tbody, 
+.custom-modern-table tr, 
+.custom-modern-table th, 
+.custom-modern-table td {
+    background-color: transparent !important;
+    color: var(--text-light) !important;
+}
+
+/* Header Tabel */
+.custom-modern-table thead tr th {
+    color: var(--text-muted) !important;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--glass-border) !important;
+    white-space: nowrap;
+}
+
+/* Isi Baris Tabel */
+.custom-modern-table tbody tr td {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--glass-border) !important;
+    font-size: 0.92rem;
+}
+
+/* Hover effect */
+.custom-modern-table tbody tr:hover td {
+    background-color: var(--glass-border) !important;
+}
+
+.custom-modern-table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* --- Form Color Picker Elements --- */
+.color-picker-container {
+    width: 42px;
+    height: 32px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-control-color-custom {
+    padding: 0;
+    width: 60px;
+    height: 60px;
+    border: none;
+    cursor: pointer;
+    background: none;
+    transform: scale(1.4); /* Penuh menutupi kontainer */
+}
+
+/* Tombol Aksi Simpan Kecil di Form */
+.btn-table-action {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-save-color {
+    background: var(--glass-border);
+    color: var(--text-light);
+    border: 1px solid var(--glass-border);
+}
+
+.btn-save-color:hover {
+    background: var(--primary-color);
+    color: var(--bg-dark);
+    box-shadow: 0 0 10px var(--shadow-primary);
+}
+
+[data-theme="light"] .btn-save-color:hover {
+    color: #ffffff;
+}
+
+/* --- Pill Preview Warna Geometris --- */
+.color-preview-pill {
+    width: 36px;
+    height: 18px;
+    border-radius: 6px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* --- Custom Status Badges --- */
+.status-badge-kecamatan {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.status-badge-kecamatan.success {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981 !important;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.status-badge-kecamatan.success .status-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #10b981;
+    border-radius: 50%;
+}
+
+.status-badge-kecamatan.pending {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #f59e0b !important;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.status-badge-kecamatan.pending .status-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #f59e0b;
+    border-radius: 50%;
+}
+
+/* --- Button Manajemen Layer --- */
+.action-btn-custom {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    font-size: 0.92rem;
+    transition: all 0.2s ease;
+}
+
+.action-btn-custom.edit {
+    background-color: rgba(0, 242, 254, 0.1);
+    color: var(--primary-color) !important;
+    border: 1px solid var(--glass-border);
+}
+
+.action-btn-custom.edit:hover {
+    background: var(--primary-gradient);
+    color: var(--bg-dark) !important;
+    box-shadow: 0 4px 12px var(--shadow-primary);
+    transform: translateY(-1px);
+}
+
+[data-theme="light"] .action-btn-custom.edit:hover {
+    color: #ffffff !important;
+}
+
+/* --- Global Theme Adapters --- */
+.text-adaptive-title { color: var(--text-light) !important; }
+.text-adaptive-muted { color: var(--text-muted) !important; }
+
+[data-theme="light"] .text-adaptive-title { color: #1e293b !important; }
+[data-theme="light"] .text-adaptive-muted { color: #64748b !important; }
+
+    /* Styling Kustom untuk Navigasi Pagination Modern - Berbasis Tema Adaptif */
+    .pagination-container {
+        /* Menggunakan latar belakang netral tipis yang aman untuk Light & Dark Mode */
+        background: rgba(128, 128, 128, 0.05);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-top: 1px solid rgba(128, 128, 128, 0.15);
+        border-bottom-left-radius: 20px; 
+        border-bottom-right-radius: 20px;
+    }
+    .pagination-info {
+        font-size: 0.85rem;
+    }
+    .pagination-nav .page-link-custom {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        background: transparent;
+        color: var(--text-adaptive-title, inherit);
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+    .pagination-nav .page-link-custom:hover:not(.disabled):not(.active) {
+        background: rgba(128, 128, 128, 0.1);
+        border-color: var(--text-adaptive-title);
+    }
+    .pagination-nav .page-link-custom.active {
+        background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+        border-color: transparent;
+        color: #ffffff !important; /* Tetap putih agar kontras di atas gradien biru */
+        box-shadow: 0 4px 12px rgba(0, 242, 254, 0.25);
+    }
+    .pagination-nav .page-link-custom.disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+    /* Sinkronisasi penomoran urut dinamis per halaman */
+    .row-number-cell {
+        font-family: monospace;
+    }
+
+.action-btn-custom.setup {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.action-btn-custom.setup:hover {
+    background-color: #f59e0b;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+    transform: translateY(-1px);
+}

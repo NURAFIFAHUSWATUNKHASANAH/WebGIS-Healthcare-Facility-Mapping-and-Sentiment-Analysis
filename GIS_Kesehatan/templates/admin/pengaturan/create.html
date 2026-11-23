@@ -1,0 +1,109 @@
+{% extends 'admin/layouts/master.html' %}
+
+{% block title %}Upload GeoJSON{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/data_kecamatan/geoJSON_upload.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
+    <div>
+        <h4 class="fw-bold text-adaptive-title mb-1 page-title">
+            <i class="fa-solid fa-cloud-arrow-up text-gradient me-2"></i>Upload Layer GeoJSON
+        </h4>
+        <p class="text-adaptive-muted small mb-0">
+            Unggah berkas spasial baru ke dalam sistem database GIS untuk pemetaan digital wilayah.
+        </p>
+    </div>
+</div>
+
+<div class="card-form-wrapper">
+    <form action="{{ url_for('pengaturan.store') }}" method="POST" enctype="multipart/form-data">
+        
+        <div class="row g-4">
+            
+            <div class="col-12 col-md-6">
+                <label class="form-label-custom">Nama Layer</label>
+                <div class="position-relative">
+                    <i class="fa-solid fa-tags input-icon-left text-adaptive-muted"></i>
+                    <input type="text" 
+                           name="nama_layer" 
+                           class="form-control-custom has-icon-left" 
+                           placeholder="Contoh: Kecamatan Kabupaten Tegal" 
+                           required>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label class="form-label-custom">Jenis Layer Spasial</label>
+                <div class="position-relative">
+                    <i class="fa-solid fa-layer-group input-icon-left text-adaptive-muted"></i>
+                    <select name="jenis_layer" class="form-select-custom has-icon-left" required>
+                        <option value="" disabled selected hidden>Pilih jenis geometri...</option>
+                        <option value="Polygon">Polygon (Batas Wilayah/Area)</option>
+                        <option value="Point">Point (Titik Koordinat/Lokasi)</option>
+                        <option value="Line">Line (Jalur/Rute/Jalan)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label-custom">Berkas File GeoJSON</label>
+                <div class="file-upload-zone-wrapper">
+                    <div class="zone-instruction text-center">
+                        <i class="fa-regular fa-file-lines display-6 text-primary-custom mb-2 d-block"></i>
+                        <span class="d-block fw-semibold text-adaptive-title fs-6">Pilih berkas spasial Anda</span>
+                        <span class="d-block text-adaptive-muted small mt-1">Hanya menerima format ekstensi .geojson atau .json</span>
+                    </div>
+                    <input type="file" 
+                           name="geojson" 
+                           id="geoJsonFileInput"
+                           class="form-control-file-hidden" 
+                           accept=".geojson,.json" 
+                           required
+                           onchange="handleFileSelectionName(this)">
+                </div>
+                <div id="fileSelectedBadge" class="mt-2 d-none">
+                    <span class="selected-file-pill font-monospace small">
+                        <i class="fa-solid fa-paperclip me-2 text-primary-custom"></i><span id="fileNameTarget">nama_file.geojson</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-12 mt-5">
+                <div class="d-flex flex-column flex-sm-row justify-content-end gap-3 border-top-glass pt-4">
+                    <a href="{{ url_for('pengaturan.index') }}" class="btn-adaptive-cancel text-center d-inline-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-xmark me-2"></i> Batal
+                    </a>
+                    <button type="submit" class="btn-adaptive-upload d-inline-flex align-items-center justify-content-center">
+                        <i class="fa-solid"></i> Simpan
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    // Fungsi interaktif sederhana untuk mendeteksi dan menampilkan nama berkas GeoJSON yang dipilih admin
+    function handleFileSelectionName(input) {
+        const badge = document.getElementById('fileSelectedBadge');
+        const target = document.getElementById('fileNameTarget');
+        
+        if (input.files && input.files[0]) {
+            target.textContent = input.files[0].name;
+            badge.classList.remove('d-none');
+            badge.classList.add('d-block');
+        } else {
+            badge.classList.remove('d-block');
+            badge.classList.add('d-none');
+        }
+    }
+</script>
+{% endblock %}

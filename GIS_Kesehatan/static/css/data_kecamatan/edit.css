@@ -1,0 +1,172 @@
+/* ==========================================================================
+   FORM EDIT KECAMATAN (FULLY ADAPTIVE & MODERN GLASSMORPHISM)
+   ========================================================================== */
+
+/* --- Card Panel Wrapper --- */
+.card-form-wrapper {
+    background: var(--bg-surface-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 8px 32px 0 var(--card-shadow);
+}
+
+/* --- Form Label Styling --- */
+.form-label-custom {
+    color: var(--text-light);
+    font-weight: 600;
+    font-size: 0.88rem;
+    letter-spacing: 0.3px;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.fs-7 {
+    font-size: 0.78rem;
+}
+
+/* --- Adaptive Form Control Fields --- */
+.form-control-custom {
+    width: 100%;
+    background-color: var(--bg-surface) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+    color: var(--text-light) !important;
+    font-size: 0.92rem;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.25s ease-in-out;
+}
+
+/* Penataan Elemen dengan Ikon Samping Kiri */
+.position-relative, .input-disabled-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.form-control-custom.has-icon-left {
+    padding-left: 42px !important;
+}
+
+.input-icon-left {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.95rem;
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* State Disabled Khusus Nama Kecamatan */
+.input-disabled-wrapper .form-control-custom:disabled {
+    background-color: var(--bg-dark) !important;
+    opacity: 0.65;
+    cursor: not-allowed;
+    font-weight: 600;
+    border-color: var(--glass-border) !important;
+}
+
+/* Hex Readonly Field */
+.read-only-hex {
+    max-width: 160px;
+    background-color: var(--bg-dark) !important;
+    letter-spacing: 0.5px;
+}
+
+/* Focus State Interactive Glow */
+.form-control-custom:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 12px var(--shadow-primary) !important;
+}
+
+/* --- Custom Textarea Specifics --- */
+.textarea-custom {
+    resize: none;
+}
+
+.form-control-custom::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+/* --- Integrated Color Picker Wrapper --- */
+.color-picker-wrapper {
+    width: 52px;
+    height: 46px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-dark);
+    flex-shrink: 0;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
+    transition: border-color 0.2s ease;
+}
+
+.color-picker-wrapper:hover {
+    border-color: var(--text-muted);
+}
+
+.form-control-color-custom {
+    padding: 0;
+    width: 80px;
+    height: 80px;
+    border: none;
+    cursor: pointer;
+    background: none;
+    transform: scale(1.6); /* Memastikan lingkaran penuh menutupi area kotak */
+}
+
+/* --- Button Action Group --- */
+.border-top-glass {
+    border-top: 1px solid var(--glass-border);
+}
+
+.btn-adaptive-update {
+    background: var(--update-gradient);
+    color: var(--update-btn-text);
+    font-weight: 600;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-size: 0.92rem;
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.btn-adaptive-update:hover {
+    color: var(--update-btn-text);
+    opacity: 0.95;
+    box-shadow: 0 6px 18px var(--update-shadow);
+    transform: translateY(-1px);
+}
+
+.btn-adaptive-cancel {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-size: 0.92rem;
+    text-decoration: none !important;
+    transition: all 0.25s ease;
+}
+
+.btn-adaptive-cancel:hover {
+    background: var(--glass-border);
+    color: var(--text-light);
+}
+
+/* --- Global Adaptation Utilities --- */
+.text-adaptive-title { color: var(--text-light) !important; }
+.text-adaptive-muted { color: var(--text-muted) !important; }
+
+[data-theme="light"] .text-adaptive-title { color: #1e293b !important; }
+[data-theme="light"] .text-adaptive-muted { color: #64748b !important; }

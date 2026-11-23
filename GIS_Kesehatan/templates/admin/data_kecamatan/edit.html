@@ -1,0 +1,92 @@
+{% extends 'admin/layouts/master.html' %}
+
+{% block title %}Edit Layer Kecamatan{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/data_kecamatan/edit.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
+    <div>
+        <h4 class="fw-bold text-adaptive-title mb-1 page-title">
+            <i class="fa-solid fa-layer-group text-gradient me-2"></i>Konfigurasi Layer Kecamatan
+        </h4>
+        <p class="text-adaptive-muted small mb-0">
+            Sesuaikan parameter visualisasi spasial dan informasi pendukung untuk wilayah peta digital.
+        </p>
+    </div>
+</div>
+
+<div class="card-form-wrapper">
+    <form action="{{ url_for('kecamatan.update', id=item._id) }}" method="POST">
+        
+        <div class="row g-4">
+            
+            <div class="col-12 col-md-6">
+                <label class="form-label-custom">Nama Kecamatan</label>
+                <div class="input-disabled-wrapper">
+                    <i class="fa-solid fa-building-flag input-icon-left text-adaptive-muted"></i>
+                    <input type="text" 
+                           value="{{ item.nama }}" 
+                           class="form-control-custom has-icon-left" 
+                           disabled>
+                </div>
+                <input type="hidden" name="nama" value="{{ item.nama }}">
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label class="form-label-custom">Warna Layer GeoJSON</label>
+                <div class="d-flex gap-3 align-items-center">
+                    <div class="color-picker-wrapper">
+                        <input type="color" 
+                               name="warna" 
+                               id="kecamatanColorPicker"
+                               value="{{ item.warna if item.warna else '#00f2fe' }}" 
+                               class="form-control-color-custom"
+                               oninput="updateColorHexLabel(this.value)">
+                    </div>
+                    <div class="flex-grow-1 position-relative">
+                        <i class="fa-solid fa-hashtag input-icon-left text-adaptive-muted"></i>
+                        <input type="text" 
+                               id="colorHexLabel" 
+                               value="{{ item.warna if item.warna else '#00f2fe' }}" 
+                               class="form-control-custom font-monospace text-uppercase has-icon-left read-only-hex" 
+                               readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label-custom">Keterangan Wilayah <span class="text-adaptive-muted fw-normal fs-7">(Opsional)</span></label>
+                <textarea name="keterangan" 
+                          rows="4" 
+                          class="form-control-custom textarea-custom" 
+                          placeholder="Masukkan catatan geografis, batas wilayah, atau info operasional faskes di kecamatan ini...">{{ item.keterangan if item.keterangan else '' }}</textarea>
+            </div>
+
+            <div class="col-12 mt-5">
+                <div class="d-flex flex-column flex-sm-row justify-content-end gap-3 border-top-glass pt-4">
+                    <a href="{{ url_for('kecamatan.index') }}" class="btn-adaptive-cancel text-center d-inline-flex align-items-center justify-content-center">
+                        <i class="fa-solid"></i> Batal
+                    </a>
+                    <button type="submit" class="btn-adaptive-update d-inline-flex align-items-center justify-content-center">
+                        <i class="fa-solid"></i> Update
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    function updateColorHexLabel(val) {
+        document.getElementById('colorHexLabel').value = val.toUpperCase();
+    }
+</script>
+{% endblock %}

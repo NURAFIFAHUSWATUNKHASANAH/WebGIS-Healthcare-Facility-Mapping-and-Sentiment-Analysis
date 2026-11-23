@@ -1,0 +1,22 @@
+# --- Core API & Server ---
+Flask==3.1.0
+flask-cors==5.0.1
+Flask-JWT-Extended==4.7.1
+gunicorn==25.3.0
+python-dotenv==1.0.1
+
+# --- Database & Auth ---
+pymongo==4.12.0
+bcrypt==4.3.0
+Flask-Bcrypt==1.0.1
+PyJWT==2.10.1
+cryptography==44.0.2
+
+# --- Database & Auth ---
+flask-pymongo==2.3.0
+flask-dance==7.1.0
+blinker==1.9.0
+python-dateutil==2.9.0.post0
+
+joblib==1.4.2
+scikit-learn==1.5.0

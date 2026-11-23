@@ -1,0 +1,230 @@
+{% extends 'admin/layouts/master.html' %}
+
+{% block title %}Data Kecamatan{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/data_kecamatan/index.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
+    <div>
+        <h4 class="fw-bold text-adaptive-title mb-1 page-title">
+            <i class="fa-solid fa-map-location-dot text-gradient me-2"></i>Data Kecamatan (GeoJSON Layer)
+        </h4>
+        <p class="text-adaptive-muted small mb-0">
+            Daftar wilayah administrasi kecamatan. Warna koordinat spasial wajib dikonfigurasi secara mandiri melalui
+            aksi pengaturan.
+        </p>
+    </div>
+</div>
+
+<div class="card-dashboard p-0">
+    <div class="table-responsive">
+        <table class="table custom-modern-table align-middle mb-0">
+            <thead>
+                <tr>
+                    <th width="70" class="text-center">No</th>
+                    <th>Nama Kecamatan</th>
+                    <th width="150" class="text-center">Warna Layer</th>
+                    <th>Keterangan</th>
+                    <th width="200" class="text-center">Status</th>
+                    <th width="160" class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if data %}
+                {% for item in data %}
+                {% set is_default = item.warna == '#00f2fe' or item.warna is not defined %}
+                <tr class="kecamatan-row {{ 'row-highlight-pending' if is_default }}">
+
+                    <td class="text-center text-adaptive-muted row-number-cell small">
+                        {{ "%02d" | format(loop.index) }}
+                    </td>
+
+                    <td>
+                        <div class="fw-semibold text-adaptive-title">{{ item.nama }}</div>
+                    </td>
+
+                    <td class="text-center">
+                        <div class="d-inline-flex align-items-center gap-2 bg-preview-wrapper">
+                            <div class="color-preview-pill"
+                                style="background: {{ item.warna if item.warna else '#00f2fe' }};"></div>
+                            <span class="font-monospace small text-adaptive-muted text-uppercase">
+                                {{ item.warna if item.warna else '#00f2fe' }}
+                            </span>
+                        </div>
+                    </td>
+
+                    <td>
+                        {% if item.keterangan %}
+                        <span class="text-adaptive-title text-break small">{{ item.keterangan }}</span>
+                        {% else %}
+                        <span class="text-adaptive-muted fst-italic small">- Tidak ada keterangan -</span>
+                        {% endif %}
+                    </td>
+
+                    <td class="text-center">
+                        {% if is_default %}
+                        <span class="status-badge-kecamatan pending">
+                            <span class="status-dot animate-pulse"></span> Wajib Dikonfigurasi
+                        </span>
+                        {% else %}
+                        <span class="status-badge-kecamatan success">
+                            <span class="status-dot"></span> Siap (Telah Diatur)
+                        </span>
+                        {% endif %}
+                    </td>
+
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center align-items-center gap-2">
+                            {% if is_default %}
+                            <a href="{{ url_for('kecamatan.edit', nama=item.nama|urlencode) }}"
+                                class="action-btn-custom setup" title="Konfigurasi Warna Layer">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </a>
+                            {% else %}
+                            <a href="{{ url_for('kecamatan.edit', nama=item.nama|urlencode) }}"
+                                class="action-btn-custom edit" title="Ubah Konfigurasi">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr id="initialEmptyRow">
+                    <td colspan="6" class="text-center py-5">
+                        <div class="text-adaptive-muted">
+                            <i class="fa-solid fa-circle-info me-2"></i>
+                            Belum ada data kecamatan.
+                        </div>
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div
+        class="pagination-container d-flex flex-column flex-sm-row justify-content-between align-items-center px-4 py-3 gap-3">
+        <div class="pagination-info text-adaptive-muted" id="paginationInfo">
+            Menampilkan <span class="fw-semibold text-adaptive-title" id="infoStart">0</span> - <span
+                class="fw-semibold text-adaptive-title" id="infoEnd">0</span> dari <span
+                class="fw-semibold text-adaptive-title" id="infoTotal">0</span> data kecamatan
+        </div>
+        <div class="pagination-nav d-flex align-items-center gap-1" id="paginationNav">
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Elemen Tabel & Row Data Kecamatan
+        const rows = Array.from(document.querySelectorAll(".kecamatan-row"));
+        const tbody = document.querySelector(".custom-modern-table tbody");
+
+        // Elemen Pagination Info & Navigasi
+        const infoStart = document.getElementById("infoStart");
+        const infoEnd = document.getElementById("infoEnd");
+        const infoTotal = document.getElementById("infoTotal");
+        const paginationNav = document.getElementById("paginationNav");
+
+        // Konfigurasi Parameter Pagination
+        const rowsPerPage = 10;
+        let currentPage = 1;
+
+        // Engine Utama Renderer Halaman Tabel
+        function renderTablePage() {
+            const totalItems = rows.length;
+
+            if (totalItems === 0) {
+                infoStart.textContent = 0;
+                infoEnd.textContent = 0;
+                infoTotal.textContent = 0;
+                paginationNav.innerHTML = "";
+                return;
+            }
+
+            const totalPages = Math.ceil(totalItems / rowsPerPage);
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = Math.min(startIndex + rowsPerPage, totalItems);
+
+            // Sembunyikan semua baris terlebih dahulu
+            rows.forEach(row => row.style.display = "none");
+
+            // Tampilkan baris pada range halaman aktif dan sesuaikan urutan nomor
+            rows.slice(startIndex, endIndex).forEach((row, idx) => {
+                row.style.display = "";
+
+                const numberCell = row.querySelector(".row-number-cell");
+                if (numberCell) {
+                    const globalIndex = startIndex + idx + 1;
+                    numberCell.textContent = globalIndex < 10 ? "0" + globalIndex : globalIndex;
+                }
+            });
+
+            // Sinkronisasi teks informasi status data (Aman Light Mode)
+            infoStart.textContent = startIndex + 1;
+            infoEnd.textContent = endIndex;
+            infoTotal.textContent = totalItems;
+
+            // Bangun tombol navigasi angka
+            buildPaginationControls(totalPages);
+        }
+
+        // Engine Pembuat Tombol Angka & Navigasi Panah
+        function buildPaginationControls(totalPages) {
+            paginationNav.innerHTML = "";
+
+            // Tombol Arrow Kiri (Prev)
+            const prevBtn = document.createElement("a");
+            prevBtn.className = `page-link-custom ${currentPage === 1 ? 'disabled' : ''}`;
+            prevBtn.innerHTML = '<i class="fa-solid fa-angle-left"></i>';
+            if (currentPage > 1) {
+                prevBtn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    currentPage--;
+                    renderTablePage();
+                });
+            }
+            paginationNav.appendChild(prevBtn);
+
+            // Generator Angka Halaman Dinamis
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement("a");
+                pageBtn.className = `page-link-custom ${currentPage === i ? 'active' : ''}`;
+                pageBtn.textContent = i;
+
+                pageBtn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    currentPage = i;
+                    renderTablePage();
+                });
+                paginationNav.appendChild(pageBtn);
+            }
+
+            // Tombol Arrow Kanan (Next)
+            const nextBtn = document.createElement("a");
+            nextBtn.className = `page-link-custom ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextBtn.innerHTML = '<i class="fa-solid fa-angle-right"></i>';
+            if (currentPage < totalPages) {
+                nextBtn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    currentPage++;
+                    renderTablePage();
+                });
+            }
+            paginationNav.appendChild(nextBtn);
+        }
+
+        // Eksekusi inisialisasi awal pagination
+        renderTablePage();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,249 @@
+{% extends 'admin/layouts/master.html' %}
+
+{% block title %}Tambah Fasilitas Kesehatan{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/faskes/tambah.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="mb-4">
+    <h4 class="fw-bold text-adaptive-title mb-1 page-title">
+        <i class="fa-solid fa-file-medical text-gradient me-2"></i>
+        Tambah Fasilitas Kesehatan
+    </h4>
+
+    <p class="text-adaptive-muted small mb-0">
+        Lengkapi formulir metadata spasial untuk mendaftarkan titik fasilitas kesehatan baru wilayah.
+    </p>
+</div>
+
+<div class="card-form-wrapper">
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <div class="row g-4">
+
+            <!-- Nama Faskes -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Nama Fasilitas
+                </label>
+
+                <input
+                    type="text"
+                    name="nama_faskes"
+                    class="form-control-custom"
+                    placeholder="Contoh: RSUD Dr. Soeselo Slawi"
+                    required>
+            </div>
+
+            <!-- Jenis Faskes -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Jenis Fasilitas
+                </label>
+
+                <select
+                    name="jenis_faskes"
+                    class="form-select-custom"
+                    required>
+
+                    <option value="" selected disabled>
+                        Pilih Kategori Faskes
+                    </option>
+
+                    <option value="Rumah Sakit">
+                        Rumah Sakit
+                    </option>
+
+                    <option value="Puskesmas">
+                        Puskesmas
+                    </option>
+
+                    <option value="Klinik">
+                        Klinik
+                    </option>
+
+                    <option value="Laboratorium">
+                        Laboratorium
+                    </option>
+
+                    <option value="Apotek">
+                        Apotek
+                    </option>
+
+                </select>
+            </div>
+
+            <!-- Alamat -->
+            <div class="col-md-12">
+                <label class="form-label-custom">
+                    Alamat Lengkap
+                </label>
+
+                <textarea
+                    rows="3"
+                    name="alamat"
+                    class="form-control-custom"
+                    placeholder="Tuliskan alamat jalan, RT/RW lengkap..."
+                    required></textarea>
+            </div>
+
+            <!-- Kecamatan -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Kecamatan
+                </label>
+
+                <select
+                    name="kecamatan"
+                    class="form-select-custom"
+                    required>
+
+                    <option value="" selected disabled>
+                        Pilih Kecamatan
+                    </option>
+
+                    {% for kecamatan in kecamatan_list %}
+                    <option value="{{ kecamatan.nama }}">
+                        {{ kecamatan.nama }}
+                    </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <!-- Kelurahan -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Kelurahan / Desa
+                </label>
+
+                <input
+                    type="text"
+                    name="kelurahan"
+                    class="form-control-custom"
+                    placeholder="Masukkan wilayah desa / kelurahan">
+            </div>
+
+            <!-- Latitude -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    <i class="fa-solid fa-map-pin me-1 text-danger"></i>
+                    Latitude
+                </label>
+
+                <input
+                    type="text"
+                    name="latitude"
+                    class="form-control-custom"
+                    placeholder="Contoh: -6.989345"
+                    required>
+            </div>
+
+            <!-- Longitude -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    <i class="fa-solid fa-location-crosshairs me-1 text-success"></i>
+                    Longitude
+                </label>
+
+                <input
+                    type="text"
+                    name="longitude"
+                    class="form-control-custom"
+                    placeholder="Contoh: 109.137844"
+                    required>
+            </div>
+
+            <!-- Telepon -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Nomor Telepon Resmi
+                </label>
+
+                <input
+                    type="text"
+                    name="telepon"
+                    class="form-control-custom"
+                    placeholder="Contoh: (0283) 491016">
+            </div>
+
+            <!-- Website -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Website Resmi
+                </label>
+
+                <input
+                    type="url"
+                    name="website"
+                    class="form-control-custom"
+                    placeholder="Contoh: https://rsudslawi.id">
+            </div>
+
+            <!-- Status -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Status Operasional
+                </label>
+
+                <select
+                    name="status_operasional"
+                    class="form-select-custom"
+                    required>
+
+                    <option value="Aktif">
+                        Aktif
+                    </option>
+
+                    <option value="Tidak Aktif">
+                        Tidak Aktif
+                    </option>
+
+                </select>
+            </div>
+
+            <!-- Foto -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Foto Fasilitas Gedung
+                </label>
+
+                <input
+                    type="file"
+                    name="foto"
+                    accept="image/*"
+                    class="form-control-custom">
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-end mt-4 pt-2 gap-2">
+
+            <button
+                type="submit"
+                class="btn btn-adaptive-save d-inline-flex align-items-center gap-2">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span>Simpan Titik Spasial</span>
+
+            </button>
+
+            <a
+                href="{{ url_for('faskes.index') }}"
+                class="btn btn-adaptive-cancel">
+
+                Kembali
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

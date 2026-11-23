@@ -1,0 +1,152 @@
+/* ==========================================================================
+   DATA LAYER GIS - MODERN GLASSMORPHIC TABLE STYLING
+   ========================================================================== */
+
+/* --- Card Pembungkus Utama --- */
+.card-dashboard.p-0 {
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 24px var(--card-shadow);
+    overflow: hidden;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.custom-modern-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 0 !important;
+}
+
+.custom-modern-table thead, 
+.custom-modern-table tbody, 
+.custom-modern-table tr, 
+.custom-modern-table th, 
+.custom-modern-table td {
+    background-color: transparent !important;
+    color: var(--text-light) !important;
+}
+
+/* Header Kategori Tabel */
+.custom-modern-table thead tr th {
+    color: var(--text-muted) !important;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--glass-border) !important;
+}
+
+/* Sel Baris Data */
+.custom-modern-table tbody tr td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--glass-border) !important;
+    font-size: 0.92rem;
+}
+
+.custom-modern-table tbody tr:hover td {
+    background-color: var(--glass-border) !important;
+}
+
+.custom-modern-table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* --- Tombol Upload di Header (CTA Atas) --- */
+.btn-adaptive-upload-header {
+    background: var(--primary-gradient);
+    color: var(--bg-dark) !important;
+    font-weight: 600;
+    font-size: 0.88rem;
+    padding: 10px 24px;
+    border-radius: 50px;
+    text-decoration: none !important;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: 0 4px 14px var(--shadow-primary);
+    transition: all 0.25s ease-in-out;
+}
+
+.btn-adaptive-upload-header:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px var(--shadow-primary);
+}
+
+[data-theme="light"] .btn-adaptive-upload-header:hover {
+    color: #ffffff !important;
+}
+
+/* --- Badge Jenis Layer Spasial --- */
+.badge-layer-type {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.badge-layer-type.polygon {
+    background-color: rgba(0, 242, 254, 0.1);
+    color: var(--primary-color) !important;
+    border: 1px solid rgba(0, 242, 254, 0.15);
+}
+
+.badge-layer-type.generic {
+    background-color: rgba(168, 85, 247, 0.1);
+    color: #a855f7 !important;
+    border: 1px solid rgba(168, 85, 247, 0.15);
+}
+
+/* --- File Text Wrapper Indicator --- */
+.file-text-wrapper {
+    background: var(--bg-dark);
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+    display: inline-flex;
+    max-width: 100%;
+}
+
+.text-primary-custom {
+    color: var(--primary-color);
+}
+
+/* --- Tombol Destruktif (Hapus Berkas) --- */
+.action-btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    border-radius: 8px;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+}
+
+.action-btn-delete:hover {
+    background-color: #ef4444;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* --- Global Theme Adapters --- */
+.text-adaptive-title { color: var(--text-light) !important; }
+.text-adaptive-muted { color: var(--text-muted) !important; }
+
+[data-theme="light"] .text-adaptive-title { color: #1e293b !important; }
+[data-theme="light"] .text-adaptive-muted { color: #64748b !important; }
+[data-theme="light"] .file-text-wrapper { background: rgba(0, 0, 0, 0.02); }

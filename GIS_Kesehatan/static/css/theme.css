@@ -1,0 +1,129 @@
+/* ==================================================
+    DARK MODE (DEFAULT)
+================================================== */
+:root {
+    /* MAIN COLORS */
+    --primary-color: #00f2fe;
+    --secondary-color: #4facfe;
+
+    /* GRADIENT */
+    --primary-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+
+    /* ACTIONS & BUTTONS SPECIFIC */
+    --update-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    --update-btn-text: #ffffff;
+    --update-shadow: rgba(245, 158, 11, 0.4);
+    
+    /* BACKGROUND */
+    --bg-dark: #0a0f1d;
+    --bg-surface: #121829;
+    --bg-surface-glass: rgba(18, 24, 41, 0.75);
+
+    /* SIDEBAR */
+    --sidebar-bg: #0d1324;
+
+    /* TEXT */
+    --text-light: #f1f5f9;
+    --text-muted: #8a99ad;
+
+    /* BORDER & GLASS */
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --card-shadow: rgba(0, 0, 0, 0.2);
+
+    /* CARD */
+    --card-bg: rgba(18, 24, 41, 0.7);
+
+    /* SHADOW */
+    --shadow-primary: rgba(0, 242, 254, 0.30);
+
+    /* FONT */
+    --font-primary: 'Plus Jakarta Sans', sans-serif;
+    --font-heading: 'Sora', sans-serif;
+
+    /* ASSETS DYNAMIC MAP */
+    --select-arrow: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%238a99ad' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+
+    /* ADDITION FOR LANDING PAGE SPATIAL EFFECT */
+    --topography-invert: 0;
+    --grid-opacity: 0.03;
+    --text-inverse: #060810;
+}
+
+/* ==================================================
+    LIGHT MODE
+================================================== */
+[data-theme="light"] {
+    /* MAIN COLORS */
+    --primary-color: #0ea5e9;
+    --secondary-color: #2563eb;
+
+    /* GRADIENT */
+    --primary-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+
+    /* ACTIONS & BUTTONS SPECIFIC */
+    --update-gradient: linear-gradient(135deg, #fb8c00 0%, #ef6c00 100%);
+    --update-btn-text: #ffffff;
+    --update-shadow: rgba(239, 108, 0, 0.25);
+
+    /* BACKGROUND */
+    --bg-dark: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-surface-glass: rgba(255, 255, 255, 0.8);
+
+    /* SIDEBAR */
+    --sidebar-bg: #ffffff;
+
+    /* TEXT */
+    --text-light: #1e293b;
+    --text-muted: #64748b;
+
+    /* BORDER & GLASS */
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --card-shadow: rgba(15, 23, 42, 0.06);
+
+    /* CARD */
+    --card-bg: #ffffff;
+
+    /* SHADOW */
+    --shadow-primary: rgba(37, 99, 235, 0.20);
+
+    /* ASSETS DYNAMIC MAP */
+    --select-arrow: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+
+    /* ADDITION FOR LANDING PAGE SPATIAL EFFECT */
+    --topography-invert: 1; /* Membalik warna peta topografi menjadi gelap di light mode */
+    --grid-opacity: 0.07;
+    --text-inverse: #ffffff;
+}
+
+.btn-theme-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 18px;
+    border-radius: 12px;
+
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+
+    background: var(--primary-gradient);
+    box-shadow: 0 10px 25px var(--shadow-primary);
+
+    transition: all 0.25s ease;
+    border: 1px solid var(--glass-border);
+}
+
+/* hover effect */
+.btn-theme-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 35px var(--shadow-primary);
+    filter: brightness(1.1);
+}
+
+/* active click */
+.btn-theme-primary:active {
+    transform: translateY(0);
+    filter: brightness(0.95);
+}

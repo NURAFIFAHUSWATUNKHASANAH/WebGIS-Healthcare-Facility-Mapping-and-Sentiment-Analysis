@@ -1,0 +1,258 @@
+{% extends 'admin/layouts/master.html' %}
+
+{% block title %}Edit Fasilitas Kesehatan{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/faskes/edit.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="mb-4">
+    <h4 class="fw-bold text-adaptive-title mb-1 page-title">
+        <i class="fa-solid fa-pen-to-square text-gradient me-2"></i>
+        Edit Fasilitas Kesehatan
+    </h4>
+
+    <p class="text-adaptive-muted small mb-0">
+        Perbarui dan sinkronisasikan kembali informasi atribut serta koordinat spasial fasilitas kesehatan.
+    </p>
+</div>
+
+<div class="card-form-wrapper">
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <div class="row g-4">
+
+            <!-- Nama Faskes -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Nama Fasilitas
+                </label>
+
+                <input
+                    type="text"
+                    name="nama_faskes"
+                    value="{{ item.nama_faskes }}"
+                    class="form-control-custom"
+                    required>
+            </div>
+
+            <!-- Jenis Faskes -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Jenis Fasilitas
+                </label>
+
+                <select
+                    name="jenis_faskes"
+                    class="form-select-custom"
+                    required>
+
+                    <option value="Rumah Sakit"
+                        {% if item.jenis_faskes == 'Rumah Sakit' %}selected{% endif %}>
+                        Rumah Sakit
+                    </option>
+
+                    <option value="Puskesmas"
+                        {% if item.jenis_faskes == 'Puskesmas' %}selected{% endif %}>
+                        Puskesmas
+                    </option>
+
+                    <option value="Klinik"
+                        {% if item.jenis_faskes == 'Klinik' %}selected{% endif %}>
+                        Klinik
+                    </option>
+
+                    <option value="Laboratorium"
+                        {% if item.jenis_faskes == 'Laboratorium' %}selected{% endif %}>
+                        Laboratorium
+                    </option>
+
+                    <option value="Apotek"
+                        {% if item.jenis_faskes == 'Apotek' %}selected{% endif %}>
+                        Apotek
+                    </option>
+
+                </select>
+            </div>
+
+            <!-- Alamat -->
+            <div class="col-md-12">
+                <label class="form-label-custom">
+                    Alamat Lengkap
+                </label>
+
+                <textarea
+                    rows="3"
+                    name="alamat"
+                    class="form-control-custom">{{ item.alamat }}</textarea>
+            </div>
+
+            <!-- Kecamatan -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Kecamatan
+                </label>
+
+                <select
+                    name="kecamatan"
+                    class="form-select-custom"
+                    required>
+
+                    {% for kecamatan in kecamatan_list %}
+                    <option
+                        value="{{ kecamatan.nama }}"
+                        {% if item.kecamatan == kecamatan.nama %}selected{% endif %}>
+
+                        {{ kecamatan.nama }}
+
+                    </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <!-- Kelurahan -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Kelurahan / Desa
+                </label>
+
+                <input
+                    type="text"
+                    name="kelurahan"
+                    value="{{ item.kelurahan }}"
+                    class="form-control-custom">
+            </div>
+
+            <!-- Latitude -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    <i class="fa-solid fa-map-pin me-1 text-danger"></i>
+                    Latitude
+                </label>
+
+                <input
+                    type="text"
+                    name="latitude"
+                    value="{{ item.latitude }}"
+                    class="form-control-custom"
+                    required>
+            </div>
+
+            <!-- Longitude -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    <i class="fa-solid fa-location-crosshairs me-1 text-success"></i>
+                    Longitude
+                </label>
+
+                <input
+                    type="text"
+                    name="longitude"
+                    value="{{ item.longitude }}"
+                    class="form-control-custom"
+                    required>
+            </div>
+
+            <!-- Telepon -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Nomor Telepon Resmi
+                </label>
+
+                <input
+                    type="text"
+                    name="telepon"
+                    value="{{ item.telepon }}"
+                    class="form-control-custom">
+            </div>
+
+            <!-- Website -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Website Resmi
+                </label>
+
+                <input
+                    type="url"
+                    name="website"
+                    value="{{ item.website }}"
+                    class="form-control-custom">
+            </div>
+
+            <!-- Status -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Status Operasional
+                </label>
+
+                <select
+                    name="status_operasional"
+                    class="form-select-custom"
+                    required>
+
+                    <option value="Aktif"
+                        {% if item.status_operasional == 'Aktif' %}selected{% endif %}>
+                        Aktif
+                    </option>
+
+                    <option value="Tidak Aktif"
+                        {% if item.status_operasional == 'Tidak Aktif' %}selected{% endif %}>
+                        Tidak Aktif
+                    </option>
+
+                </select>
+            </div>
+
+            <!-- Foto -->
+            <div class="col-md-6">
+                <label class="form-label-custom">
+                    Perbarui Foto Gedung
+                </label>
+
+                <input
+                    type="file"
+                    name="foto"
+                    accept="image/*"
+                    class="form-control-custom">
+
+                {% if item.foto %}
+                <div class="mt-2">
+                    <img
+                        src="{{ url_for('static', filename='image/faskes/' ~ item.foto) }}"
+                        style="height:90px;border-radius:10px;">
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-end mt-4 pt-2 gap-2">
+
+            <a
+                href="{{ url_for('faskes.index') }}"
+                class="btn btn-adaptive-cancel">
+
+                Batal
+
+            </a>
+
+            <button
+                type="submit"
+                class="btn btn-adaptive-update d-inline-flex align-items-center gap-2">
+
+                <i class="fa-solid"></i>
+                <span>Update</span>
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

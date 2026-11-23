@@ -1,0 +1,403 @@
+/* ==========================================================================
+   DATA FASKES (FULLY ADAPTIVE RATIO WITH THEME VARIABLES)
+   ========================================================================== */
+
+/* --- Filter & Search Wrapper Layout --- */
+.card-filter-wrapper {
+    background: var(--bg-surface-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+/* Container Pembungkus Input Pencarian */
+.input-group-custom {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-group-custom .input-icon {
+    position: absolute;
+    left: 16px;
+    color: var(--text-muted);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.form-control-custom {
+    width: 100%;
+    background: var(--bg-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 11px 16px 11px 45px;
+    color: var(--text-light);
+    font-size: 0.92rem;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+/* Mengatur warna placeholder agar adaptif */
+.form-control-custom::placeholder {
+    color: var(--text-muted);
+    opacity: 0.8;
+}
+
+.form-control-custom:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 12px var(--shadow-primary);
+}
+
+/* Elemen Dropdown Select */
+.form-select-custom {
+    width: 100%;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 11px 16px;
+    color: var(--text-light);
+    font-size: 0.92rem;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.25s ease;
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 12px 12px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Panah SVG Dinamis Mengikuti Tema */
+.sidebar,
+.main-content,
+.card-filter-wrapper {
+    --select-arrow-dark: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%238a99ad' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    --select-arrow-light: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
+.form-select-custom {
+    background-image: var(--select-arrow-dark);
+}
+
+[data-theme="light"] .form-select-custom {
+    background-image: var(--select-arrow-light);
+}
+
+.form-select-custom:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 12px var(--shadow-primary);
+}
+
+/* Solusi tuntas isi opsi dropdown agar tidak putih transparan */
+.form-select-custom option {
+    background-color: var(--sidebar-bg);
+    color: var(--text-light);
+}
+
+/* Tombol Filter Outline */
+.btn-outline-secondary-custom {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.25s ease;
+}
+
+.btn-outline-secondary-custom:hover {
+    background: var(--primary-gradient, linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%));
+    color: #ffffff !important;
+    border-color: transparent;
+}
+
+/* Tombol Tambah Fasilitas (Dinamis Berdasarkan Tema) */
+.btn-adaptive-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: #ffffff;
+    font-weight: 600;
+    border: none;
+    transition: all 0.25s ease;
+}
+
+.btn-adaptive-primary:hover {
+    color: #ffffff;
+    opacity: 0.9;
+    box-shadow: 0 4px 12px var(--shadow-primary);
+    transform: translateY(-1px);
+}
+
+[data-theme="dark"] .btn-adaptive-primary {
+    color: #0a0f1d;
+    /* Teks gelap di dalam tombol neon jika dark mode */
+}
+
+.card-dashboard {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+
+/* --- Premium Custom Modern Table Setup --- */
+.card-dashboard.p-0 {
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+}
+
+.custom-modern-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: transparent !important;
+}
+
+/* Paksa override background default Bootstrap */
+.custom-modern-table thead,
+.custom-modern-table tbody,
+.custom-modern-table tr,
+.custom-modern-table th,
+.custom-modern-table td {
+    background-color: transparent !important;
+    color: var(--text-light) !important;
+}
+
+.custom-modern-table thead tr th {
+    color: var(--text-muted) !important;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--glass-border) !important;
+}
+
+.custom-modern-table tbody tr td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--glass-border) !important;
+    font-size: 0.92rem;
+}
+
+/* Efek Hover Baris Adaptif */
+.custom-modern-table tbody tr:hover td {
+    background-color: var(--glass-border) !important;
+}
+
+.custom-modern-table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* --- Table Image Rounded Wrapper --- */
+.table-img-wrapper {
+    width: 54px;
+    height: 54px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+}
+
+.table-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- Custom Sektoral Faskes Badges --- */
+.badge-custom-faskes {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.badge-custom-faskes.rs {
+    background-color: rgba(14, 165, 233, 0.12);
+    color: var(--primary-color);
+    border: 1px solid var(--glass-border);
+}
+
+.badge-custom-faskes.puskesmas {
+    background-color: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* Styling Badge Klinik */
+.badge-custom-faskes.klinik {
+    background: rgba(255, 193, 7, 0.15);
+    /* Warna kuning transparan */
+    color: #ffc107;
+    /* Teks kuning cerah */
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+/* Tambahan opsional untuk Laboratorium & Apotek agar tidak polos juga */
+.badge-custom-faskes.laboratorium {
+    background: rgba(153, 102, 255, 0.15);
+    /* Warna ungu transparan */
+    color: #9966ff;
+    border: 1px solid rgba(153, 102, 255, 0.3);
+}
+
+.badge-custom-faskes.apotek {
+    background: rgba(233, 30, 99, 0.15);
+    /* Warna pink transparan */
+    color: #e91e63;
+    border: 1px solid rgba(233, 30, 99, 0.3);
+}
+
+/* --- Custom Status Badges --- */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.status-badge.active .status-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #10b981;
+    border-radius: 50%;
+}
+
+/* --- Floating Action Button Items --- */
+.action-btn-custom {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    font-size: 0.92rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.action-btn-custom.edit {
+    background-color: rgba(0, 242, 254, 0.1);
+    color: var(--primary-color) !important;
+    border: 1px solid var(--glass-border);
+}
+
+.action-btn-custom.edit:hover {
+    background: var(--primary-gradient);
+    color: var(--bg-dark) !important;
+    box-shadow: 0 4px 12px var(--shadow-primary);
+    transform: translateY(-1px);
+}
+
+[data-theme="light"] .action-btn-custom.edit:hover {
+    color: #ffffff !important;
+}
+
+.action-btn-custom.delete {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.action-btn-custom.delete:hover {
+    background-color: #ef4444;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+    transform: translateY(-1px);
+}
+
+/* --- Global Adaptation Theme Helpers --- */
+.text-adaptive-title {
+    color: var(--text-light) !important;
+}
+
+.text-adaptive-muted {
+    color: var(--text-muted) !important;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.extra-small {
+    font-size: 0.72rem;
+}
+
+.btn-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+}
+
+/* Styling Kustom untuk Navigasi Pagination Modern - Berbasis Tema Adaptif */
+.pagination-container {
+    /* Menggunakan warna background yang sangat tipis agar adaptif di light/dark */
+    background: rgba(128, 128, 128, 0.04);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(128, 128, 128, 0.1);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.pagination-info {
+    font-size: 0.85rem;
+}
+
+.pagination-nav .page-link-custom {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    /* Border adaptif menggunakan warna teks muted */
+    border: 1px solid var(--border-adaptive, rgba(128, 128, 128, 0.2));
+    background: transparent;
+    /* Menggunakan variabel warna teks utama tema */
+    color: var(--text-adaptive-title, inherit);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.pagination-nav .page-link-custom:hover:not(.disabled):not(.active) {
+    background: rgba(128, 128, 128, 0.1);
+    border-color: var(--text-adaptive-title);
+}
+
+.pagination-nav .page-link-custom.active {
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    border-color: transparent;
+    color: #ffffff;
+    /* Tetap putih karena background tombol aktif berupa gradient biru */
+    box-shadow: 0 4px 12px rgba(0, 242, 254, 0.25);
+}
+
+.pagination-nav .page-link-custom.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Sinkronisasi penomoran urut dinamis per halaman */
+.row-number-cell {
+    font-family: monospace;
+}

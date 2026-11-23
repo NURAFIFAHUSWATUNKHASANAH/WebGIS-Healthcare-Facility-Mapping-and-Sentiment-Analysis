@@ -1,0 +1,61 @@
+<div class="navbar-admin">
+    <div class="nav-left d-flex align-items-center gap-3">
+        <button class="toggle-sidebar-btn" id="toggleSidebar">
+            <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+        <h4 class="mb-0 fw-semibold page-title">Dashboard Panel</h4>
+    </div>
+
+    <div class="nav-right d-flex align-items-center gap-3">
+        <div class="dropdown notification-dropdown">
+            <button class="nav-icon-btn position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-regular fa-bell"></i>
+                <span class="notification-badge-pulse"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu py-2 mt-2">
+                <li class="dropdown-header-custom px-3 py-2 border-bottom border-secondary-subtle">
+                    <span class="fw-bold text-light">Notifikasi</span>
+                    <span class="badge bg-info-subtle text-info float-end rounded-pill">2 Baru</span>
+                </li>
+                <li>
+                    <a class="dropdown-item px-3 py-2.5 d-flex align-items-start gap-2" href="#">
+                        <div class="notif-icon bg-success-subtle text-success rounded-circle p-1.5"><i class="fa-solid fa-circle-check small"></i></div>
+                        <div>
+                            <p class="mb-0 text-light small fw-medium">Sinkronisasi Peta Berhasil</p>
+                            <span class="text-muted-custom extra-small">2 menit yang lalu</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item px-3 py-2.5 d-flex align-items-start gap-2" href="#">
+                        <div class="notif-icon bg-warning-subtle text-warning rounded-circle p-1.5"><i class="fa-solid fa-triangle-exclamation small"></i></div>
+                        <div>
+                            <p class="mb-0 text-light small fw-medium">Indikator Stunting Belum Diperbarui</p>
+                            <span class="text-muted-custom extra-small">1 jam yang lalu</span>
+                        </div>
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider border-secondary-subtle my-1"></li>
+                <li><a class="dropdown-item text-center text-gradient small fw-semibold py-2" href="#">Lihat Semua Notifikasi</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-divider"></div>
+
+        <div class="admin-profile-wrapper d-flex align-items-center gap-3">
+            <div class="admin-profile d-flex align-items-center gap-2">
+                <div class="profile-avatar d-flex align-items-center justify-content-center">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <div class="profile-info d-none d-sm-block">
+                    <span class="d-block admin-name fw-semibold">Admin GIS</span>
+                    <span class="d-block admin-role">Super Administrator</span>
+                </div>
+            </div>
+            
+            <a href="{{ url_for('login_bp.login') }}" id="btnLogout" class="logout-nav-btn" title="Keluar">
+                <i class="fa-solid fa-power-off"></i>
+            </a>
+        </div>
+    </div>
+</div>

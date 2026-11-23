@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ item.nama_faskes }} | HEALTHGIS</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landingpage.css') }}">
+
+    <style>
+        body { background-color: #0c101d; color: #fff; padding-top: 50px; }
+        
+        /* Glassmorphism Detail Card */
+        .detail-card-modern {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .img-faskes-detail {
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .label-modern {
+            color: #94a3b8;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 5px;
+        }
+
+        .value-modern {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cyber-bg-wrapper">
+        <div class="spatial-grid-mesh"></div>
+        <div class="satellite-glow orb-cyan"></div>
+        <div class="satellite-glow orb-purple"></div>
+    </div>
+
+    <div class="container">
+        
+        <a href="/faskes-direktori" class="text-decoration-none text-white small font-monospace mb-4 d-block">
+            <i class="fa-solid fa-arrow-left me-2 text-neon-glow"></i> KEMBALI KE DIREKTORI
+        </a>
+
+        <div class="detail-card-modern">
+            <div class="row g-5">
+                <div class="col-lg-5">
+                    <img src="{{ url_for('static', filename='image/faskes/' ~ item.foto) if item.foto else url_for('static', filename='image/no-image.png') }}" 
+                         alt="{{ item.nama_faskes }}" class="img-faskes-detail shadow-lg">
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="mb-4">
+                        <span class="badge bg-glow-cyan text-xs font-monospace mb-2">{{ item.jenis_faskes|upper }}</span>
+                        <h2 class="display-6 fw-bold" style="font-family: 'Space Grotesk';">{{ item.nama_faskes }}</h2>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="label-modern"><i class="fa-solid fa-location-dot me-2"></i>Alamat Lengkap</div>
+                            <div class="value-modern">{{ item.alamat }}</div>
+
+                            <div class="label-modern"><i class="fa-solid fa-map-location-dot me-2"></i>Kecamatan</div>
+                            <div class="value-modern">{{ item.kecamatan }}</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="label-modern"><i class="fa-solid fa-phone me-2"></i>Telepon</div>
+                            <div class="value-modern">{{ item.telepon if item.telepon else '-' }}</div>
+
+                            <div class="label-modern"><i class="fa-solid fa-clock me-2"></i>Status Operasional</div>
+                            <div class="value-modern">{{ item.status_operasional if item.status_operasional else '-' }}</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-3 rounded-3" style="background: rgba(0,242,254,0.05); border: 1px solid rgba(0,242,254,0.1);">
+                        <div class="label-modern text-cyan">Koordinat Spasial</div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="font-monospace text-white">{{ item.latitude }}, {{ item.longitude }}</span>
+                            {% if item.latitude and item.longitude %}
+                            <a href="https://www.google.com/maps/search/?api=1&query={{ item.latitude }},{{ item.longitude }}" 
+                               target="_blank" class="btn btn-outline-info btn-sm rounded-pill">
+                                <i class="fa-solid fa-location-crosshairs me-1"></i> Buka Peta
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

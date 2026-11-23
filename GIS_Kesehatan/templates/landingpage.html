@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEALTHGIS — Pemetaan Spasial Layanan Kesehatan Kabupaten Tegal</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landingpage.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <div class="cyber-bg-wrapper">
+        <div class="spatial-grid-mesh"></div>
+        <div class="topography-overlay"></div>
+        <div class="satellite-glow orb-cyan"></div>
+        <div class="satellite-glow orb-purple"></div>
+        <div class="satellite-glow orb-blue"></div>
+    </div>
+
+    <div class="scanlines"></div>
+
+
+    <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <span class="brand-core-dot"></span><span class="text-white">HEALTH</span><span
+                    class="text-neon-glow">GIS</span>
+            </a>
+
+            <button class="navbar-toggler custom-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+                <i class="fa-solid fa-bars text-white"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto align-items-center dynamic-nav">
+                    <li class="nav-item"><a class="nav-link-modern" href="#beranda">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link-modern" href="#statistik">Statistik Singkat</a></li>
+                    <li class="nav-item"><a class="nav-link-modern" href="#peta">Peta Utama</a></li>
+                    <li class="nav-item"><a class="nav-link-modern" href="#direktori">Pencarian Cepat</a></li>
+                    <li class="nav-item"><a class="nav-link-modern" href="#grafik">Visual Grafis</a></li>
+                </ul>
+                <div class="d-flex gap-2 ms-lg-4 nav-buttons">
+                    <a class="btn-neo-primary" href="#peta">
+                        <i class="fa-solid fa-satellite-dish me-2"></i>Peta Langsung
+                    </a>
+                    <a class="btn-neo-secondary" href="/login">
+                        <i class="fa-solid fa-fingerprint"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <section id="beranda" class="hero-engine d-flex align-items-center position-relative">
+        <div class="container position-relative" style="z-index: 5;">
+            <div class="row align-items-center min-vh-100 pt-5">
+
+                <div class="col-lg-7 text-start">
+                    <div class="cyber-badge mb-4 animate-flicker">
+                        <span class="cyber-pulse"></span>
+                        <span class="cyber-badge-text">Platform Intelijen Kesehatan Spasial Tegal // 2026</span>
+                    </div>
+
+                    <h1 class="hero-display-title fw-bold">
+                        Pemetaan Spasial <br>
+                        <span class="text-neon-glow">Layanan Kesehatan</span>
+                    </h1>
+
+                    <p class="hero-lead-text mt-3 col-lg-10">
+                        Peta digital interaktif yang menyajikan data sebaran Rumah Sakit, Puskesmas, Klinik, hingga
+                        Apotek secara <i>real-time</i> di setiap kecamatan wilayah Kabupaten Tegal.
+                    </p>
+
+                    <div class="mt-5 d-flex gap-3 flex-wrap">
+                        <a href="#peta" class="btn-cyber-action">
+                            Jelajahi Peta Spasial <i class="fa-solid fa-arrow-up-right-from-square ms-2"></i>
+                        </a>
+                        <a href="#direktori" class="btn-cyber-outline">
+                            Lihat Faskes Terdekat
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-5 position-relative mt-5 mt-lg-0 graphic-wrapper">
+                    <div class="hud-box-decoration">
+                        <div class="hud-corner top-left"></div>
+                        <div class="hud-corner top-right"></div>
+                        <div class="hud-corner bottom-left"></div>
+                        <div class="hud-corner bottom-right"></div>
+                        <div class="ui-mockup-circle">
+                            <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" class="hero-vector-layer"
+                                alt="Inti Mesin GIS">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <section id="statistik" class="py-6 border-top border-bottom border-secondary border-opacity-10 position-relative"
+        style="z-index: 5;">
+        <div class="container">
+            <div class="row g-4 counter-grid">
+
+                <div class="col-6 col-lg-3">
+                    <div class="metric-card-mini card-glow-cyan">
+                        <div class="metric-card-inner">
+                            <div class="metric-header">
+                                <span class="metric-tag"><i class="fa-solid fa-layer-group me-1"></i> Wilayah</span>
+                                <div class="metric-status-pulse pulse-cyan"></div>
+                            </div>
+                            <h3 class="metric-number text-neon-glow">{{ total_kecamatan }}</h3>
+                            <p class="metric-label">Total Kecamatan Terdata</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="metric-card-mini card-glow-teal">
+                        <div class="metric-card-inner">
+                            <div class="metric-header">
+                                <span class="metric-tag text-teal"><i class="fa-solid fa-hospital me-1"></i> Rumah
+                                    Sakit</span>
+                                <div class="metric-status-pulse pulse-teal"></div>
+                            </div>
+                            <h3 class="metric-number text-white">{{ total_rs }}</h3>
+                            <p class="metric-label">Total Rumah Sakit</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="metric-card-mini card-glow-blue">
+                        <div class="metric-card-inner">
+                            <div class="metric-header">
+                                <span class="metric-tag text-blue"><i class="fa-solid fa-house-medical me-1"></i> Klinik
+                                    & Puskesmas</span>
+                                <div class="metric-status-pulse pulse-blue"></div>
+                            </div>
+                            <h3 class="metric-number text-white">{{ total_puskesmas }}</h3>
+                            <p class="metric-label">Total Puskesmas & Klinik</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="metric-card-mini card-glow-purple">
+                        <div class="metric-card-inner">
+                            <div class="metric-header">
+                                <span class="metric-tag text-purple"><i
+                                        class="fa-solid fa-prescription-bottle-medical me-1"></i> Apotek</span>
+                                <div class="metric-status-pulse pulse-purple"></div>
+                            </div>
+                            <h3 class="metric-number text-white">{{ total_apotek }}</h3>
+                            <p class="metric-label">Total Apotek & Lab</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <section id="peta" class="py-6 position-relative" style="z-index: 5;">
+        <div class="container">
+            <div
+                class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-end mb-5">
+                <div>
+                    <span class="super-tag text-neon-glow">01 // MENU UTAMA</span>
+                    <h2 class="section-display-title">Peta Utama Interaktif GIS</h2>
+                </div>
+                <p class="section-subtitle-modern mt-3 mt-md-0 col-md-4">Gunakan panel analitik melayang untuk
+                    mempermudah membaca densitas jangkauan fasilitas kesehatan per kecamatan.</p>
+            </div>
+
+            <div class="neo-map-container p-2">
+                <div class="map-header-bar d-flex justify-content-between px-3 py-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="window-dot red"></span>
+                        <span class="window-dot yellow"></span>
+                        <span class="window-dot green"></span>
+                        <span class="ms-2 small text-muted font-monospace text-xs">peta_interaktif_tegal.spxp</span>
+                    </div>
+                    <span
+                        class="badge bg-success bg-opacity-10 text-success rounded-pill font-monospace py-1 px-2 text-xs">●
+                        DATA REAL-TIME AKTIF</span>
+                </div>
+                {% include 'publik/map/index.html' %}
+            </div>
+        </div>
+    </section>
+
+
+    <section id="direktori" class="py-6 position-relative" style="z-index: 5;">
+        <div class="container">
+
+            <div
+                class="mb-5 text-center text-md-start d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3">
+                <div>
+                    <span class="super-tag text-neon-glow">02 // PENCARIAN SPASIAL</span>
+                    <h2 class="section-display-title">Direktori Fasilitas Kesehatan</h2>
+                </div>
+                <p class="section-subtitle-modern text-md-end mb-0 max-w-400">
+                    Eksplorasi data simpul kesehatan terverifikasi di wilayah TegalKab secara *real-time*.
+                </p>
+            </div>
+
+            <div class="bento-grid" id="faskesContainer">
+                {% if data %}
+                {% for item in data %}
+                {% set card_class = 'item-large' if loop.index % 3 == 1 else ('item-medium' if loop.index % 3 == 2 else
+                'item-small') %}
+                {% set glow_class = 'glow-cyan' if item.jenis_faskes == 'Rumah Sakit' else ('glow-blue' if
+                item.jenis_faskes == 'Puskesmas' or item.jenis_faskes == 'Klinik' else 'glow-purple') %}
+                {% set icon_class = 'fa-building-shield' if item.jenis_faskes == 'Rumah Sakit' else ('fa-kit-medical' if
+                item.jenis_faskes == 'Puskesmas' or item.jenis_faskes == 'Klinik' else 'fa-prescription-bottle-medical')
+                %}
+
+                <div class="bento-item {{ card_class }} {{ glow_class }}" data-jenis="{{ item.jenis_faskes }}"
+                    data-kecamatan="{{ item.kecamatan }}">
+                    <div class="bento-corner-lines"></div>
+                    <div class="bento-content">
+                        <div class="bento-icon-box">
+                            <i class="fa-solid {{ icon_class }}"></i>
+                        </div>
+                        <div class="bento-details">
+                            <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                                <span class="bento-badge-type">{{ item.jenis_faskes }}</span>
+                                {% if item.status_operasional == '24 Jam' or item.jenis_faskes == 'Rumah Sakit' %}
+                                <span
+                                    class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-20 font-monospace text-xs">24
+                                    JAM</span>
+                                {% endif %}
+                            </div>
+                            <h4>{{ item.nama_faskes }}</h4>
+                            <p class="text-muted-custom">{{ item.alamat }}</p>
+
+                            <div class="bento-footer-meta">
+                                <span class="meta-item"><i class="fa-solid fa-location-dot"></i> Kec. {{ item.kecamatan
+                                    }}</span>
+                                {% if item.telepon %}
+                                <span class="meta-item"><i class="fa-solid fa-phone"></i> {{ item.telepon }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bento-glow"></div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="item-small w-100 text-center py-5">
+                    <p class="text-muted mb-0">Belum ada data fasilitas kesehatan yang terdata.</p>
+                </div>
+                {% endif %}
+            </div>
+            <div class="text-center mt-4">
+                <a href="{{ url_for('faskes_publik.index_publik') }}" class="btn-theme-primary px-4 py-2">
+                    <i class="fa-solid fa-layer-group me-2"></i>
+                    Lihat Lebih Banyak
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section id="grafik" class="py-6 position-relative" style="z-index: 5;">
+        <div class="container">
+            <div class="mb-5 text-center">
+                <span class="super-tag text-neon-glow">03 // HUBUNGAN SEKTORAL</span>
+                <h2 class="section-display-title">Visualisasi data Geospasial Grafis</h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="neo-chart-box p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h6 class="font-monospace text-uppercase tracking-wider text-white mb-0">// Perbandingan
+                                Faskes Antar Kecamatan</h6>
+                            <span class="text-muted small">Satuan: Jumlah Unit</span>
+                        </div>
+                        <canvas id="chartWilayah"></canvas>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="neo-chart-box p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h6 class="font-monospace text-uppercase tracking-wider text-white mb-0">// Persentase Jenis
+                                Faskes Dominan</h6>
+                        </div>
+                        <div class="chart-relative-wrapper">
+                            <canvas id="chartJenis"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="py-5 footer-neo border-top border-secondary border-opacity-10 position-relative" style="z-index: 5;">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-6 text-center text-md-start">
+                    <h5 class="fw-bold mb-2"><span class="text-white">HEALTH</span><span
+                            class="text-neon-glow">GIS</span></h5>
+                    <p class="text-muted-custom small mb-2">Platform Informasi Geospasial Medis Berstandar Informasi
+                        Publik Terbuka.</p>
+                    <p class="text-muted-custom text-xs font-monospace opacity-50">
+                        Sumber data: Dinas Kesehatan / Puskesmas Setempat. Diperbarui: Juni 2026.
+                    </p>
+                </div>
+                <div
+                    class="col-md-6 text-center text-md-end d-flex flex-column justify-content-between align-items-md-end">
+                    <p class="text-muted-custom small mb-3">
+                        <a href="/laporkan-perubahan"
+                            class="text-decoration-none text-neon-glow small font-monospace"><i
+                                class="fa-solid fa-pen-to-square me-1"></i> Laporkan Perubahan Data / Daftarkan Klinik
+                            Swasta</a>
+                    </p>
+                    <p class="text-muted-custom text-xs mb-0 font-monospace opacity-75">
+                        © 2026 HEALTHGIS ENGINE. PROPRIETARY SOFTWARE. DATA SYNC ACTIVE.<br>
+                        <span class="opacity-50">Disclaimer: Peta ini bertujuan untuk informasi publik dan mitigasi
+                            awal, bukan untuk keperluan legalitas formal agraria.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Ambil data dari Flask
+        const chartData = {{ chart_data | tojson }};
+
+        // Chart 1: Per Kecamatan
+        new Chart(document.getElementById('chartWilayah'), {
+            type: 'bar',
+            data: {
+                labels: chartData.kecamatan.labels,
+                datasets: [{
+                    label: 'Jumlah Faskes',
+                    data: chartData.kecamatan.values,
+                    backgroundColor: '#00f2fe'
+                }]
+            },
+            options: { responsive: true }
+        });
+
+        // Chart 2: Persentase Jenis
+        new Chart(document.getElementById('chartJenis'), {
+            type: 'doughnut',
+            data: {
+                labels: chartData.jenis.labels,
+                datasets: [{
+                    data: chartData.jenis.values,
+                    backgroundColor: ['#00f2fe', '#3b82f6', '#a855f7', '#ef4444']
+                }]
+            }
+        });
+    </script>
+</body>
+
+</html>

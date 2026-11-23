@@ -1,0 +1,297 @@
+{% extends 'admin/layouts/master.html' %}
+
+{% block title %}Arsip Komentar Pengguna{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/faskes/index.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+    <div
+        class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
+        <div>
+            <h4 class="fw-bold text-adaptive-title mb-1 page-title">
+                <i class="fa-solid fa-comments text-gradient me-2"></i>Arsip Komentar Pengguna
+            </h4>
+            <p class="text-adaptive-muted small mb-0">
+                Sistem monitoring, klasifikasi sentimen, dan manajemen moderasi ulasan faskes oleh publik.
+            </p>
+        </div>
+    </div>
+
+    <!-- TAMBAHAN: Element Input Pencarian & Filter agar Sinkron dengan JavaScript -->
+<div class="card-filter-wrapper mb-4">
+        <div class="row g-3 align-items-center">
+
+            <div class="col-12 col-md-4">
+                <div class="input-group-custom w-100">
+                    <span class="input-icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input type="text" id="searchInput" class="form-control-custom w-100" placeholder="Cari faskes atau komentar...">
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <select class="form-select-custom w-100" id="filterJenis">
+                    <option value="">Semua Sentimen</option>
+                    <option value="positif">Positif</option>
+                    <option value="negatif">Negatif</option>
+                </select>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <select class="form-select-custom w-100" id="filterKecamatan">
+                    <option value="">Semua Kecamatan</option>
+                    {% for kec in kecamatan_list %}
+                    <option value="{{ kec.nama }}">
+                        {{ kec.nama }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card-dashboard p-0">
+        <div class="table-responsive">
+            <table class="table custom-modern-table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th width="70" class="text-center">No</th>
+                        <th>Fasilitas Kesehatan</th>
+                        <th width="150" class="text-center">Sentimen</th>
+                        <th style="max-width: 350px;">Komentar</th>
+                        <th width="150" class="text-center">Tanggal</th>
+                        <th width="160" class="text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if data %}
+                    {% for item in data %}
+                    <tr class="faskes-row" data-nama="{{ item.faskes.nama_faskes.lower() }} {{ item.komentar.lower() }}"
+                        data-jenis="{{ item.sentimen }}" data-kecamatan="{{ item.faskes.kecamatan }}">
+
+                        <td class="text-center text-adaptive-muted row-number-cell small">
+                            {{ "%02d" | format(loop.index) }}
+                        </td>
+
+                        <td>
+                            <div class="fw-semibold text-adaptive-title">{{ item.faskes.nama_faskes }}</div>
+                            <span class="extra-small text-adaptive-muted d-block mt-1">
+                                <i class="fa-solid fa-location-dot me-1 text-info"></i>{{ item.faskes.kecamatan }}
+                            </span>
+                        </td>
+
+                        <td class="text-center">
+                            {% if item.sentimen == 'positif' %}
+                            <span
+                                class="status-badge-kecamatan success d-inline-flex align-items-center justify-content-center">
+                                <span class="status-dot"></span> {{ item.sentimen|upper }}
+                            </span>
+                            {% else %}
+                            <span
+                                class="status-badge-kecamatan pending d-inline-flex align-items-center justify-content-center">
+                                <span class="status-dot animate-pulse"></span> {{ item.sentimen|upper }}
+                            </span>
+                            {% endif %}
+                        </td>
+
+                        <td style="max-width: 350px;">
+                            <p class="mb-0 text-truncate text-adaptive-title small" title="{{ item.komentar }}">
+                                {{ item.komentar }}
+                            </p>
+                        </td>
+
+                        <td class="text-center">
+                            <span class="font-monospace text-adaptive-muted small">
+                                {{ item.created_at.strftime('%d-%m-%Y') }}
+                            </span>
+                        </td>
+
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <a class="action-btn-custom edit btn-delete-layer" style="cursor: pointer;"
+                                    title="Hapus Komentar" data-url="/admin/komentar/delete/{{ item._id }}">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>
+                            </div>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr id="initialEmptyRow">
+                        <!-- PERBAIKAN: Berubah dari colspan=7 menjadi colspan=6 -->
+                        <td colspan="6" class="text-center py-5">
+                            <div class="text-adaptive-muted">
+                                <i class="fa-solid fa-circle-info me-2 text-info"></i>
+                                Belum ada arsip komentar dari pengguna.
+                            </div>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <div
+            class="pagination-container d-flex flex-column flex-sm-row justify-content-between align-items-center px-4 py-3 gap-3">
+            <div class="pagination-info text-adaptive-muted" id="paginationInfo">
+                Menampilkan <span class="fw-semibold text-adaptive-title" id="infoStart">0</span> - <span
+                    class="fw-semibold text-adaptive-title" id="infoEnd">0</span> dari <span
+                    class="fw-semibold text-adaptive-title" id="infoTotal">0</span> arsip komentar
+            </div>
+            <div class="pagination-nav d-flex align-items-center gap-1" id="paginationNav">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ url_for('static', filename='js/sweetAlert_Delete.js') }}"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("searchInput");
+        const filterJenis = document.getElementById("filterJenis");
+        const filterKecamatan = document.getElementById("filterKecamatan");
+
+        const rows = Array.from(document.querySelectorAll(".faskes-row"));
+        const tbody = document.querySelector(".custom-modern-table tbody");
+
+        const infoStart = document.getElementById("infoStart");
+        const infoEnd = document.getElementById("infoEnd");
+        const infoTotal = document.getElementById("infoTotal");
+        const paginationNav = document.getElementById("paginationNav");
+
+        const rowsPerPage = 10;
+        let currentPage = 1;
+        let filteredRows = [...rows];
+
+        function renderTablePage() {
+            const totalItems = filteredRows.length;
+
+            if (totalItems === 0) {
+                rows.forEach(row => row.style.display = "none");
+                if (!document.getElementById("emptyFilterRow")) {
+                    const tr = document.createElement("tr");
+                    tr.id = "emptyFilterRow";
+                    // PERBAIKAN: Berubah dari colspan=7 menjadi colspan=6
+                    tr.innerHTML = `
+                        <td colspan="6" class="text-center py-5">
+                            <div class="text-adaptive-muted">
+                                <i class="fa-solid fa-circle-info me-2 text-danger"></i>
+                                Data ulasan tidak ditemukan.
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                }
+                infoStart.textContent = 0;
+                infoEnd.textContent = 0;
+                infoTotal.textContent = 0;
+                paginationNav.innerHTML = "";
+                return;
+            }
+
+            const oldMessage = document.getElementById("emptyFilterRow");
+            if (oldMessage) oldMessage.remove();
+
+            const totalPages = Math.ceil(totalItems / rowsPerPage);
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = Math.min(startIndex + rowsPerPage, totalItems);
+
+            rows.forEach(row => row.style.display = "none");
+
+            filteredRows.slice(startIndex, endIndex).forEach((row, idx) => {
+                row.style.display = "";
+                const numberCell = row.querySelector(".row-number-cell");
+                if (numberCell) {
+                    const globalIndex = startIndex + idx + 1;
+                    numberCell.textContent = globalIndex < 10 ? "0" + globalIndex : globalIndex;
+                }
+            });
+
+            infoStart.textContent = startIndex + 1;
+            infoEnd.textContent = endIndex;
+            infoTotal.textContent = totalItems;
+
+            buildPaginationControls(totalPages);
+        }
+
+        function buildPaginationControls(totalPages) {
+            paginationNav.innerHTML = "";
+
+            const prevBtn = document.createElement("a");
+            prevBtn.className = `page-link-custom ${currentPage === 1 ? 'disabled' : ''}`;
+            prevBtn.innerHTML = '<i class="fa-solid fa-angle-left"></i>';
+            if (currentPage > 1) {
+                prevBtn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    currentPage--;
+                    renderTablePage();
+                });
+            }
+            paginationNav.appendChild(prevBtn);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement("a");
+                pageBtn.className = `page-link-custom ${currentPage === i ? 'active' : ''}`;
+                pageBtn.textContent = i;
+                pageBtn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    currentPage = i;
+                    renderTablePage();
+                });
+                paginationNav.appendChild(pageBtn);
+            }
+
+            const nextBtn = document.createElement("a");
+            nextBtn.className = `page-link-custom ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextBtn.innerHTML = '<i class="fa-solid fa-angle-right"></i>';
+            if (currentPage < totalPages) {
+                nextBtn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    currentPage++;
+                    renderTablePage();
+                });
+            }
+            paginationNav.appendChild(nextBtn);
+        }
+
+        function filterTable() {
+            const keyword = searchInput ? searchInput.value.toLowerCase().trim() : "";
+            const jenis = filterJenis ? filterJenis.value.trim() : "";
+            const kecamatan = filterKecamatan ? filterKecamatan.value.trim() : "";
+
+            filteredRows = rows.filter(row => {
+                const nama = row.dataset.nama;
+                const rowJenis = row.dataset.jenis;
+                const rowKecamatan = row.dataset.kecamatan;
+
+                const matchNama = keyword === "" || nama.includes(keyword);
+                const matchJenis = jenis === "" || rowJenis === jenis;
+                const matchKecamatan = kecamatan === "" || rowKecamatan === kecamatan;
+
+                return matchNama && matchJenis && matchKecamatan;
+            });
+
+            currentPage = 1;
+            renderTablePage();
+        }
+
+        if (searchInput) searchInput.addEventListener("keyup", filterTable);
+        if (filterJenis) filterJenis.addEventListener("change", filterTable);
+        if (filterKecamatan) filterKecamatan.addEventListener("change", filterTable);
+
+        renderTablePage();
+    });
+</script>
+{% endblock %}

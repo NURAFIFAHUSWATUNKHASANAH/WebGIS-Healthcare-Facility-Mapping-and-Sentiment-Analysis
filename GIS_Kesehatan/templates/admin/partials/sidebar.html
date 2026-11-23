@@ -1,0 +1,92 @@
+<div class="sidebar">
+    <div class="logo">
+        <div class="d-flex align-items-center">
+            <span class="brand-dot"></span>HEALTH<span class="text-gradient">GIS</span>
+        </div>
+        <button class="close-sidebar-btn" id="closeSidebar">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <div class="sidebar-nav-container">
+
+        <div class="menu-section">
+            <span class="menu-section-title">Menu Utama</span>
+            <ul class="sidebar-menu mb-0">
+                <li class="menu-item {% if page_active == 'dashboard' %}active{% endif %}">
+                    <a href="/dashboard">
+                        <i class="fa-solid fa-chart-pie me-3"></i>
+                        <span class="menu-text-label">Dashboard</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="menu-section">
+            <span class="menu-section-title">Data Wilayah</span>
+            <ul class="sidebar-menu mb-0">
+                <li class="menu-item {% if page_active == 'upload_geojson' %}active{% endif %}">
+                    <a href="{{ url_for('pengaturan.index') }}">
+                        <i class="fa-solid fa-layer-group me-3"></i>
+                        <span class="menu-text-label">Data Peta Wilayah</span>
+                    </a>
+                </li>
+                <li class="menu-item {% if page_active == 'kecamatan' %}active{% endif %}">
+                    <a href="{{ url_for('kecamatan.index') }}">
+                        <i class="fa-solid fa-map-location-dot me-3"></i>
+                        <span class="menu-text-label">Data Kecamatan</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="menu-section">
+            <span class="menu-section-title">Manajemen Sektoral</span>
+            <ul class="sidebar-menu mb-0">
+                <li class="menu-item {% if page_active == 'faskes' %}active{% endif %}">
+                    <a href="/admin/faskes/">
+                        <i class="fa-solid fa-hospital-user me-3"></i>
+                        <span class="menu-text-label">Data Fasilitas</span>
+                    </a>
+                </li>
+                <!-- <li class="menu-item {% if page_active == 'indikator' %}active{% endif %}">
+                    <a href="#">
+                        <i class="fa-solid fa-heart-pulse me-3"></i>
+                        <span class="menu-text-label">Indikator Kesehatan</span>
+                    </a>
+                </li> -->
+            </ul>
+        </div>
+
+        <div class="menu-section">
+            <span class="menu-section-title">Sistem</span>
+            <ul class="sidebar-menu mb-0">
+                <li class="menu-item {% if page_active == 'komentar' %}active{% endif %}">
+                    <a href="{{ url_for('komentar_bp.index') }}">
+                        <i class="fa-solid fa-comments me-3"></i>
+                        <span class="menu-text-label">Komentar</span>
+                    </a>
+                </li>
+                <!-- <li class="menu-item {% if page_active == 'pengguna' %}active{% endif %}">
+                    <a href="#">
+                        <i class="fa-solid fa-users-gear me-3"></i>
+                        <span class="menu-text-label">Pengguna</span>
+                    </a>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="theme-switch-wrapper">
+            <div class="theme-info d-flex align-items-center">
+                <i class="fa-solid fa-moon id-theme-icon me-2"></i>
+                <span class="theme-text-label" id="themeText">Dark Mode</span>
+            </div>
+            <label class="theme-switch">
+                <input type="checkbox" id="toggleTheme" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+</div>

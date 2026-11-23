@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peta Spasial Geografis Wilayah</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/publik_map.css') }}">
+</head>
+<body>
+
+<div class="container py-5">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="fw-bold text-gradient mb-1">
+                <i class="fa-solid fa-earth-asia me-2"></i>Visualisasi Spasial Wilayah Publik
+            </h4>
+            <p class="text-muted small mb-0 d-none d-sm-block">
+                Sistem informasi geografis interaktif peta sebaran administrasi kecamatan dan sebaran kuantitas faskes.
+            </p>
+        </div>
+        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()">
+            <i class="fa-solid fa-moon me-1"></i> Mode
+        </button>
+    </div>
+
+    <div class="map-wrapper-card position-relative">
+        
+        <div id="map"></div>
+
+        <div class="info-box-floating" id="infoPanel">
+<div class="info-header d-flex align-items-center justify-content-between">
+    <div>
+        <i class="fa-solid fa-chart-simple text-info me-2"></i>
+        <span class="fw-bold" style="color: var(--text-light);" id="cardTitle">Analitik Wilayah</span>
+    </div>
+</div>
+            
+            <div class="info-body d-flex flex-column justify-content-center" id="infoContent">
+                <div class="text-center py-4 text-muted">
+                    <i class="fa-solid fa-hand-pointer animate-bounce d-block mb-3 fs-3 text-info"></i>
+                    <p class="small mb-0 px-3">Silakan klik salah satu area kecamatan pada peta untuk memuat visualisasi sebaran data faskes secara mendalam.</p>
+                </div>
+            </div>
+
+            <div class="info-footer-desc d-none" id="infoFooter">
+                <span class="section-label" style="margin-bottom: 6px;">Catatan Wilayah</span>
+                <p class="desc" id="keteranganText">-</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+    // 1. Theme Engine Switcher adaptif
+    function toggleTheme() {
+        const html = document.documentElement;
+        const current = html.getAttribute('data-theme') || 'dark';
+        const target = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', target);
+        
+        const btn = document.getElementById('themeToggle');
+        if (target === 'light') {
+            btn.innerHTML = '<i class="fa-solid fa-sun me-1"></i> Terang';
+            tileLayer.setUrl(basemaps.light);
+        } else {
+            btn.innerHTML = '<i class="fa-solid fa-moon me-1"></i> Gelap';
+            tileLayer.setUrl(basemaps.dark);
+        }
+        
+        if (geoLayer) {
+            geoLayer.setStyle({
+                color: target === 'dark' ? '#334155' : '#e2e8f0'
+            });
+        }
+    }
+
+    const basemaps = {
+        dark: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+        light: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
+    };
+
+    // 2. Inisialisasi Workspace Peta
+    let map = L.map('map', {
+        zoomControl: false,
+        fadeAnimation: true
+    }).setView([-6.98, 109.13], 11);
+
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+    let htmlTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    let tileLayer = L.tileLayer(basemaps[htmlTheme], {
+        attribution: '&copy; CartoDB'
+    }).addTo(map);
+
+    let geoLayer;
+    let selectedLayer = null;
+
+    // 3. Tarik data GeoJSON ter-inkorporasi statistik faskes dari Backend Flask Anda
+    fetch("/map/geojson")
+        .then(res => res.json())
+        .then(data => {
+            geoLayer = L.geoJSON(data, {
+                style: function (feature) {
+                    let activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+                    return {
+                        color: activeTheme === 'dark' ? '#334155' : '#e2e8f0',
+                        weight: 1.5,
+                        fillColor: feature.properties.warna || "#0ea5e9",
+                        fillOpacity: activeTheme === 'dark' ? 0.45 : 0.55
+                    };
+                },
+                onEachFeature: function (feature, layer) {
+                    
+                    // Efek Hover Bersinar (Mouseover)
+                    layer.on("mouseover", function () {
+                        if (layer !== selectedLayer) {
+                            let activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+                            layer.setStyle({
+                                weight: 2.5,
+                                color: activeTheme === 'dark' ? '#38bdf8' : '#0ea5e9',
+                                fillOpacity: activeTheme === 'dark' ? 0.65 : 0.7
+                            });
+                        }
+                    });
+
+                    // Kembalikan Desain Awal Saat Mouse Keluar (Mouseout)
+                    layer.on("mouseout", function () {
+                        if (layer !== selectedLayer) {
+                            geoLayer.resetStyle(layer);
+                        }
+                    });
+
+                    // Trigger Klik Wilayah Kecamatan
+                    // Trigger Klik Wilayah Kecamatan
+layer.on("click", function (e) {
+    if (selectedLayer) {
+        geoLayer.resetStyle(selectedLayer);
+    }
+
+    selectedLayer = layer;
+    let activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+
+    // Berikan penanda border tegas pada wilayah terpilih
+    layer.setStyle({
+        weight: 3.5,
+        color: activeTheme === 'dark' ? '#ffffff' : '#0f172a',
+        fillOpacity: 0.75
+    });
+
+    map.fitBounds(layer.getBounds(), { padding: [50, 50] });
+
+    // Pengemasan data properti
+    let nama = feature.properties.nama || "-";
+    let ket = feature.properties.keterangan || "Tidak ada catatan instansi sektoral.";
+    
+    let rs = feature.properties.jumlah_rs || 0;
+    let pusk = feature.properties.jumlah_pusk || 0;
+    let klinik = feature.properties.jumlah_klinik || 0;
+    let lab = feature.properties.jumlah_lab || 0;
+    let apotek = feature.properties.jumlah_apotek || 0;
+    let total = feature.properties.jumlah_total || 0;
+
+    // === TAMBAHKAN BARIS INI UNTUK MENGUBAH JUDUL CARD ===
+    document.getElementById("cardTitle").innerText = `Analitik Wilayah: ${nama}`;
+
+    // Menyuntikkan Data Kuantitas ke Panel Floating Box
+    document.getElementById("infoContent").innerHTML = `
+        <div class="mb-3">
+            <span class="section-label" style="margin-bottom: 2px;">Kecamatan Terpilih</span>
+            <h4 class="fw-bold m-0 text-gradient fs-4">${nama}</h4>
+        </div>
+        
+        <div class="mt-2">
+            <span class="section-label">Distribusi Ketersediaan Faskes</span>
+            
+            <div class="faskes-row">
+                <span><i class="fa-solid fa-hospital text-danger me-2"></i>Rumah Sakit</span>
+                <span class="faskes-count">${rs}</span>
+            </div>
+            <div class="faskes-row">
+                <span><i class="fa-solid fa-house-medical text-success me-2"></i>Puskesmas</span>
+                <span class="faskes-count">${pusk}</span>
+            </div>
+            <div class="faskes-row">
+                <span><i class="fa-solid fa-user-doctor text-primary me-2"></i>Klinik Terdata</span>
+                <span class="faskes-count">${klinik}</span>
+            </div>
+            <div class="faskes-row">
+                <span><i class="fa-solid fa-flask-vial text-warning me-2"></i>Laboratorium</span>
+                <span class="faskes-count">${lab}</span>
+            </div>
+            <div class="faskes-row">
+                <span><i class="fa-solid fa-capsules text-info me-2"></i>Apotek</span>
+                <span class="faskes-count">${apotek}</span>
+            </div>
+            
+            <div class="total-row text-gradient fs-5 fw-bold mt-3">
+                <span>Total Terintegrasi</span>
+                <span>${total} Unit</span>
+            </div>
+        </div>
+    `;
+
+    // Tampilkan Deskripsi Wilayah pada Footer Panel
+    let footer = document.getElementById("infoFooter");
+    footer.classList.remove("d-none");
+    document.getElementById("keteranganText").innerHTML = ket;
+});
+                }
+            }).addTo(map);
+
+            if (data && data.features && data.features.length > 0) {
+                map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
+            }
+        })
+        .catch(err => console.error("Gagal sinkronisasi data spasial publik:", err));
+</script>
+</body>
+</html>
